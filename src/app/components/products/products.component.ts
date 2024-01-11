@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Category } from '../../interfaces/Category';
+import { Product } from '../../interfaces/Product';
 
 @Component({
   selector: 'app-products',
@@ -7,7 +8,7 @@ import { Category } from '../../interfaces/Category';
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
-  
+
   categories : Category[] = [
     {
       id: 1,
@@ -25,5 +26,8 @@ export class ProductsComponent {
       id: 4,
       name: "Premium"
     }
-  ]
+  ];
+
+  product : Product = { } as Product;
+
 }
