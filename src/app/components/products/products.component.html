@@ -1,5 +1,5 @@
 <div class="container mt-3">
-    <app-product [categories]="categories" [product]="product"></app-product>
+    <app-product [categories]="categories" [product]="product" (saveEmitter)="saveProduct()"></app-product>
 
     <div class="container display-6">
         Produtos Cadastrados:
@@ -19,7 +19,17 @@
                     </tr>
                 </thead>
                 <tbody>
-    
+                    <tr *ngFor="let product of products">
+                        <td>{{product.id}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.description}}</td>
+                        <td>{{product.price}}</td>
+                        <td>{{product.category.name}}</td>
+                        <td>
+                            <span *ngIf="product.promotion" class='badge bg-success me-1'>P</span>
+                            <span *ngIf="product.newProduct" class='badge bg-primary'>L</span>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
