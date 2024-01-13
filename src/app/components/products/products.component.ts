@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Category } from '../../interfaces/Category';
 import { Product } from '../../interfaces/Product';
+import { CategoryService } from '../../services/category.service';
+import { ProductService } from '../../services/product.service';
+import { toJSDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar';
 
 @Component({
   selector: 'app-products',
@@ -9,23 +12,42 @@ import { Product } from '../../interfaces/Product';
 })
 export class ProductsComponent {
 
-  categories : Category[] = [
-    { id: 1, name: "Produção Própria" },
-    { id: 2, name: "Nacional" },
-    { id: 3, name: "Importado" },
-    { id: 4, name: "Premium" }
-  ];
+  categories : Category[] = [];
 
   product : Product = { } as Product;
 
   products : Product [] = [];
 
-  saveProduct() {
-    this.product.id = this.products.length + 1;
-    this.products.push(this.product);
-    this.product = { } as Product;
+  constructor(private categoryService: CategoryService, private productService: ProductService) { }
 
-    console.log("Novo produto cadastrado. Total produtos: " + this.products.length);
+  ngOnInit(): void {
+    this.loadProducts();
+    this.loadCategories();
+  }
+
+  loadProducts() {
+    this.productService.getProducts().subscribe(
+      {
+        next: data => { this.products = data }
+      }
+    );
+  }
+
+  loadCategories() {
+    this.categoryService.getCategories().subscribe(
+      {
+        next: data => { this.categories = data }
+      }
+    );
+  }
+
+  saveProduct() {
+    this.productService.save(this.product).subscribe({
+      next: data => {
+        this.products.push(data);
+        this.product = { } as Product;
+      }
+    });
   }
 
 }
